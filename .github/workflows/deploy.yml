@@ -50,6 +50,11 @@ jobs:
           name: dist-files
           path: dist
   deploy:
+    # create openID connect in AWS IAM and set 
+    # the github identity role
+    # permissions:
+    #   id-token: write
+    #   contents: read
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -62,6 +67,11 @@ jobs:
           path: ./dist
       - name: Output contents
         run: ls
+      # - name: Get AWS permissions
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     role-to-assume: arn of the role
+      #     aws-region: us-east-1
       - name: Deploy site
         uses: ./.github/actions/deploy-s3-docker
         env:
